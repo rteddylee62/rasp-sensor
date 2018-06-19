@@ -7,28 +7,32 @@ import time
 
 class PirSensor:
 
-	def __init__( self, gpio, pin ):
+	def __init__( self, gpio, pin, debug ):
 
 		# initialize class variables
 		self.gpio = gpio
 		self.pir = pin
+
+		self.debug = False
+
+		if debug == 1:
+			self.debug = True
 
 	def setup( self ):
 
 		# set up sensor for input
 		self.gpio.setup( self.pir, GPIO.IN )
 
+		if self.debug:
+			print "GPIO setup"
+
 	def read(self):
 
-		try:
-			# read the PIR sensor
-			reading = self.gpio.input(self.pir)
-	
-		except:  
-			# this catches ALL other exceptions including errors.  
-			# You won't get any error messages for debugging  
-			# so only use it once your code is working  
-			reading = -1  
+		# read the PIR sensor
+		reading = self.gpio.input(self.pir)
+
+		if self.debug:
+			print "PIR value read: %d" % reading
 
 	        return reading
 
